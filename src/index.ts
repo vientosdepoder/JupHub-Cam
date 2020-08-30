@@ -26,10 +26,17 @@ const extension: JupyterFrontEndPlugin<void> = {
   const widget = new MainAreaWidget({content});
   let txt = document.createElement("INPUT");
   txt.setAttribute("type", "text");
+  txt.setAttribute("id","sala")
   content.node.appendChild(txt);
 
   let btn = document.createElement("BUTTON");   // Create a <button> element
-  btn.innerHTML = "iniciar Reunion";                   // Insert text
+  btn.innerHTML = "iniciar Reunion";  
+  btn.onclick = function(){
+    var sala =(<HTMLInputElement> document.getElementById("sala")).value;
+   
+    var url = "http://localhost/jitsi.html?"+sala;
+    window.open(url, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=700,height=700");
+    };               
   content.node.appendChild(btn);               //
   
 
