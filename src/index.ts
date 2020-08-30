@@ -3,14 +3,47 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
+import {
+  ICommandPalette, MainAreaWidget
+} from '@jupyterlab/apputils';
+
+import {
+  Widget
+} from '@lumino/widgets';
+
 /**
  * Initialization data for the JupHubCam extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'JupHubCam',
   autoStart: true,
-  activate: (app: JupyterFrontEnd) => {
+  requires: [ICommandPalette],
+  activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {
     console.log('JupyterLab extension JupHubCam is activated!');
+    console.log('ICommandPalette:', palette);
+     // Create a blank content widget inside of a MainAreaWidget
+  const content = new Widget();
+  const widget = new MainAreaWidget({content});
+  widget.id = 'apod-jupyterlab';
+  widget.title.label = 'JupHub Cam';
+  widget.title.closable = true;
+
+  // Add an application command
+  const command: string = 'apod:open';
+  app.commands.addCommand(command, {
+    label: 'Consulta OnLine',
+    execute: () => {
+      if (!widget.isAttached) {
+        // Attach the widget to the main work area if it's not there
+        app.shell.add(widget, 'main');
+      }
+      // Activate the widget
+      app.shell.activateById(widget.id);
+    }
+  });
+
+  // Add the command to the palette.
+  palette.addItem({command, category: 'Camara'});
   }
 };
 
