@@ -24,6 +24,15 @@ const extension: JupyterFrontEndPlugin<void> = {
      // Create a blank content widget inside of a MainAreaWidget
   const content = new Widget();
   const widget = new MainAreaWidget({content});
+  let txt = document.createElement("INPUT");
+  txt.setAttribute("type", "text");
+  content.node.appendChild(txt);
+
+  let btn = document.createElement("BUTTON");   // Create a <button> element
+  btn.innerHTML = "iniciar Reunion";                   // Insert text
+  content.node.appendChild(btn);               //
+  
+
   widget.id = 'apod-jupyterlab';
   widget.title.label = 'JupHub Cam';
   widget.title.closable = true;
